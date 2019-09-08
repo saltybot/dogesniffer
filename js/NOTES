@@ -1,0 +1,14 @@
+doge face
+keycap digit emojis for numbers
+bomb emoji for bombs
+different levels of difficulty
+- easy (8x8, 10 mines)
+- med (16x16, 40 mines)
+- hard (30x16, 99 mines)
+- custom (?x?, ? mines)
+
+populate board
+ - sweep through board and probability of mine is total_mines / total_squares. use rand num generator
+
+online version
+- two players start at same time; use chatroom number; fastest time wins
