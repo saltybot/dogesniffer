@@ -1,5 +1,9 @@
+#include "dogesniffer.h"
+#include "input.h"
+#include "mines.h"
+#include "render.h"
+
 #include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
 
 #include <stdbool.h>
 
@@ -7,10 +11,14 @@ static const int ROWS = 10;
 static const int COLS = 10;
 static const int MINES = 10;
 
-static const int CELL_WIDTH = 40;
-static const int CELL_HEIGHT = 40;
+//static bool is_running = true;
 
+//static const int CELL_WIDTH = 40;
+//static const int CELL_HEIGHT = 40;
+/*
 struct cell {
+  // rect should probably be refactored out the cell to decouple the graphics
+  // from the game logic
   SDL_Rect rect;
   int number_adjacent;
   bool is_open;
@@ -28,6 +36,7 @@ struct board
 static SDL_Window *gWindow = NULL;
 static SDL_Renderer *gRenderer = NULL;
 static SDL_Texture *gBlockTexture = NULL;
+static SDL_Texture *gBombTexture = NULL;
 
 static struct board *gBoard = NULL;
 
@@ -46,6 +55,7 @@ void init_game(void)
   gRenderer = SDL_CreateRenderer(pWindow, -1, SDL_RENDERER_ACCELERATED);
 
   gBlockTexture = IMG_LoadTexture(gRenderer, "block.png");
+  gBombTexture = IMG_LoadTexture(gRenderer, "bomb.png");
 }
 
 void destroy_game(void)
@@ -54,6 +64,12 @@ void destroy_game(void)
   {
     SDL_DestroyTexture(gBlockTexture);
     gBlockTexture = NULL;
+  }
+
+  if (gBombTexture != NULL)
+  {
+    SDL_DestroyTexture(gBombTexture);
+    gBombTexture = NULL;
   }
 
   if (gRenderer != NULL)
@@ -132,7 +148,7 @@ void render_board(const struct board *board)
     rect.y += CELL_HEIGHT;
   }
 }
-
+*/
 /*
 void render_rbg_board(SDL_Renderer *renderer, const struct board *board)
 {
@@ -158,7 +174,7 @@ void render_rbg_board(SDL_Renderer *renderer, const struct board *board)
   }
 }
 */
-
+/*
 void process_input_event(SDL_Event *event)
 {
   switch (event->type)
@@ -181,9 +197,33 @@ void process_input_event(SDL_Event *event)
     }
   }
 }
+*/
+const Uint32 FPS = 60;
+const Uint32 FRAME_TIME = 1000 / FPS;
 
 int main(int argc, char* argv[])
 {
+  game_init(ROWS, COLS, MINES);
+  render_init();
+
+  is_running = true;
+  while (is_running)
+  {
+    Uint32 frame_start = SDL_GetTicks();
+
+    process_input();
+    render();
+
+    Uint32 elapsed_time = SDL_GetTicks() - frame_start;
+    if (elapsed_time < FRAME_TIME)
+    {
+      SDL_Delay(FRAME_TIME - elapsed_time);
+    }
+  }
+
+  render_destroy();
+  game_destroy();
+/*
   init_game();
 
   // init textures
@@ -227,10 +267,12 @@ int main(int argc, char* argv[])
   SDL_Rect rect = { 100, 100, 100, 100 };
   SDL_RenderFillRect(gRenderer, &rect);
 
+  game_init(ROWS, COLS, MINES);
   create_board(ROWS, COLS, MINES, &gBoard);
   render_board(gBoard);
   SDL_RenderPresent(gRenderer);
-
+*/
+/*
   while (1)
   {
     SDL_Event event;
@@ -245,8 +287,9 @@ int main(int argc, char* argv[])
     }
     //SDL_PumpEvents();
   }
+*/
 
-  destroy_game();
+  //destroy_game();
 
   return 0;
 }

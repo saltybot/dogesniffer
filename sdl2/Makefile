@@ -12,7 +12,7 @@ else
 	CFLAGS += -O0 -g
 endif
 
-SRCS := main.c util.c
+SRCS := dogesniffer.c input.c main.c mines.c render.c util.c
 OBJS := $(SRCS:%.c=$(BUILD_DIR)/%.o)
 
 all: $(TARGET)
