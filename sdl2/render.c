@@ -15,6 +15,12 @@ static SDL_Renderer *gRenderer = NULL;
 static SDL_Texture *gBlockTexture = NULL;
 static SDL_Texture *gBombTexture = NULL;
 
+//struct cell
+//{
+//  SDL_Rect rect;
+//  SDL_Texture *texture;
+//};
+
 void render_init(void)
 {
   SDL_Init(SDL_INIT_VIDEO);
@@ -76,12 +82,34 @@ void render(void)
   SDL_Rect rect = {0};
   rect.w = CELL_WIDTH;
   rect.h = CELL_HEIGHT;
+  int cell_index = 0;
   for (int i = 0; i < game_board.rows; ++i)
   {
     for (int j = 0; j < game_board.cols; ++j)
     {
-      SDL_RenderCopy(gRenderer, gBlockTexture, NULL, &rect);
+      struct game_cell *cell = &game_board.cells[cell_index];
+      if (cell->is_open)
+      {
+        if (cell->is_kaboom)
+        {
+
+        }
+        else if (cell->is_mine)
+        {
+
+        }
+        else
+        {
+          SDL_SetRenderDrawColor(gRenderer, 64, 64, 64, 255);
+          SDL_RenderFillRect(gRenderer, &rect);
+        }
+      }
+      else
+      {
+        SDL_RenderCopy(gRenderer, gBlockTexture, NULL, &rect);
+      }
       rect.x += CELL_WIDTH;
+      ++cell_index;
     }
     rect.x = 0;
     rect.y += CELL_HEIGHT;

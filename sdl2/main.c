@@ -1,15 +1,21 @@
 #include "dogesniffer.h"
-#include "input.h"
+//#include "input.h"
 #include "mines.h"
-#include "render.h"
+//#include "render.h"
 
-#include <SDL2/SDL.h>
+#include "SDL2/SDL.h"
 
 #include <stdbool.h>
 
 static const int ROWS = 10;
 static const int COLS = 10;
 static const int MINES = 10;
+
+static SDL_Window *window;
+static SDL_Renderer *renderer;
+
+static void init_game(int rows, int cols, int mines);
+static void destroy_game(void);
 
 //static bool is_running = true;
 
@@ -203,8 +209,10 @@ const Uint32 FRAME_TIME = 1000 / FPS;
 
 int main(int argc, char* argv[])
 {
-  game_init(ROWS, COLS, MINES);
-  render_init();
+  init_game(ROWS, COLS, MINES);
+
+  //game_init(ROWS, COLS, MINES);
+  //render_init();
 
   is_running = true;
   while (is_running)
@@ -212,6 +220,7 @@ int main(int argc, char* argv[])
     Uint32 frame_start = SDL_GetTicks();
 
     process_input();
+    update();
     render();
 
     Uint32 elapsed_time = SDL_GetTicks() - frame_start;
@@ -221,8 +230,10 @@ int main(int argc, char* argv[])
     }
   }
 
-  render_destroy();
-  game_destroy();
+  //render_destroy();
+  //game_destroy();
+
+  destroy_game();
 /*
   init_game();
 
@@ -292,4 +303,30 @@ int main(int argc, char* argv[])
   //destroy_game();
 
   return 0;
+}
+
+static void init_game(int rows, int cols, int mines)
+{
+  SDL_Init(SDL_INIT_VIDEO);
+  SDL_InitSubSystem(SDL_INIT_VIDEO);
+
+  SDL_VideoInit(NULL);
+  window = SDL_CreateWindow(
+    "dogesniffer",
+    SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+    640, 480,
+    SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_MOUSE_CAPTURE);
+
+  renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+
+  init_mines(rows, cols, mines);
+  init_doge(renderer, rows, cols, mines);
+}
+
+static void destroy_game(void)
+{
+  destroy_doge();
+  destroy_mines();
+  SDL_DestroyRenderer(renderer);
+  SDL_DestroyWindow(window);
 }

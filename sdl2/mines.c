@@ -10,9 +10,9 @@ struct game_board game_board;
 
 static void move_bomb(int row, int col);
 
-void game_init(int rows, int cols, int mines)
+void init_mines(int rows, int cols, int mines)
 {
-  game_destroy();
+  destroy_mines();
 
   int num_cells = rows * cols;
 
@@ -42,7 +42,7 @@ void game_init(int rows, int cols, int mines)
 
 }
 
-void game_destroy(void)
+void destroy_mines(void)
 {
   if (game_board.cells != NULL)
   {
@@ -59,5 +59,5 @@ void check_cell(int row, int col)
 
 void uncover_cell(int row, int col)
 {
-
+  game_board.cells[(row * 10) + col].is_open = true;
 }
