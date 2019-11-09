@@ -17,9 +17,11 @@ enum GAME_STATE
 // int time;
 
 struct game_cell {
-  int number_adjacent;
+  int flags_adjacent;
+  int mines_adjacent;
   bool is_open;
-  bool is_mine;
+  bool has_flag;
+  bool has_mine;
   bool is_kaboom;
 };
 
@@ -35,6 +37,6 @@ void init_mines(int rows, int cols, int mines);
 void destroy_mines(void);
 
 void check_cell(int row, int col);
-void uncover_cell(int row, int col);
+void toggle_cell_flag(int row, int col);
 
 #endif // MINES_H

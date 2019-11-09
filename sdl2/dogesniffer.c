@@ -21,6 +21,7 @@ static int minez;
 static SDL_Renderer *Renderer = NULL;
 static SDL_Texture *block_texture = NULL;
 static SDL_Texture *bomb_texture = NULL;
+static SDL_Texture *flagged_bomb_texture = NULL;
 static SDL_Texture *kaboom_texture = NULL;
 
 static bool mouse_left_click;
@@ -141,10 +142,10 @@ void update(void)
         if (SDL_PointInRect(&point, &cellz[cell_index].rect))
         {
           if (mouse_left_click) {
-            uncover_cell(row, col);
+            check_cell(row, col);
           }
           if (mouse_right_click) {
-            check_cell(row, col);
+            toggle_cell_flag(row, col);
           }
         }
         ++cell_index;
@@ -162,7 +163,7 @@ void update(void)
           {
             cellz[cell_index].texture = kaboom_texture;
           }
-          else if (game_board.cells[cell_index].is_mine)
+          else if (game_board.cells[cell_index].has_mine)
           {
             cellz[cell_index].texture = bomb_texture;
           }
