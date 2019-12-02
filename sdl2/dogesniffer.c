@@ -23,6 +23,7 @@ static SDL_Texture *block_texture = NULL;
 static SDL_Texture *bomb_texture = NULL;
 static SDL_Texture *flagged_bomb_texture = NULL;
 static SDL_Texture *kaboom_texture = NULL;
+static SDL_Texture *number_textures[9] = {0};
 
 static bool mouse_left_click;
 static bool mouse_right_click;
@@ -48,6 +49,15 @@ void init_doge(SDL_Renderer *renderer, int rows, int cols, int mines)
   block_texture = IMG_LoadTexture(renderer, "block.png");
   bomb_texture = IMG_LoadTexture(renderer, "bomb.png");
   kaboom_texture = IMG_LoadTexture(renderer, "kaboom.png");
+  number_textures[0] = IMG_LoadTexture(renderer, "0.png");
+  number_textures[1] = IMG_LoadTexture(renderer, "1.png");
+  number_textures[2] = IMG_LoadTexture(renderer, "2.png");
+  number_textures[3] = IMG_LoadTexture(renderer, "3.png");
+  number_textures[4] = IMG_LoadTexture(renderer, "4.png");
+  number_textures[5] = IMG_LoadTexture(renderer, "5.png");
+  number_textures[6] = IMG_LoadTexture(renderer, "6.png");
+  number_textures[7] = IMG_LoadTexture(renderer, "7.png");
+  number_textures[8] = IMG_LoadTexture(renderer, "8.png");
 
   cellz = malloc(sizeof(struct cell) * rows * cols);
   int cell_index = 0;
@@ -157,15 +167,20 @@ void update(void)
     {
       for (int col = 0; col < colz; ++col)
       {
-        if (game_board.cells[cell_index].is_open)
+        struct game_cell *cell = &game_board.cells[cell_index];
+        if (cell->is_open)
         {
-          if (game_board.cells[cell_index].is_kaboom)
+          if (cell->is_kaboom)
           {
             cellz[cell_index].texture = kaboom_texture;
           }
-          else if (game_board.cells[cell_index].has_mine)
+          else if (cell->has_mine)
           {
             cellz[cell_index].texture = bomb_texture;
+          }
+          else
+          {
+            cellz[cell_index].texture = number_textures[cell->mines_adjacent];
           }
         }
         else

@@ -44,6 +44,11 @@ void init_mines(int rows, int cols, int mines)
   }
   free(mah_list);
 
+  for (int i = 0; i < num_cells; ++i)
+  {
+    game_board.cells[i].mines_adjacent = 5;
+  }
+
 }
 
 void destroy_mines(void)
