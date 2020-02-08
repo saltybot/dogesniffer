@@ -1,2 +1,4 @@
-sdl2/dogesniffer
-sdl2/build/
+c/dogesniffer
+c/build/
+cpp/dogesniffer
+cpp/build/
