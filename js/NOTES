@@ -1,14 +1,22 @@
-doge face
-keycap digit emojis for numbers
-bomb emoji for bombs
-different levels of difficulty
-- easy (8x8, 10 mines)
-- med (16x16, 40 mines)
-- hard (30x16, 99 mines)
-- custom (?x?, ? mines)
+# General Notes
+* doge face looking back and forth following cursor arrow
+* keycap digit emojis for numbers
+* bomb emoji for bombs
+* different levels of difficulty
+    * easy (8x8, 10 mines)
+    * med (16x16, 40 mines)
+    * hard (30x16, 99 mines)
+    * custom (?x?, ? mines)
 
-populate board
- - sweep through board and probability of mine is total_mines / total_squares. use rand num generator
+# Online Version
+* two players start at same time; use chatroom number; fastest time wins
+* option to play infinite mode
 
-online version
-- two players start at same time; use chatroom number; fastest time wins
+# Game play
+## populate board
+* sweep through board and probability of mine is total_mines / total_squares. use rand num generator
+
+# Questions
+* Desktop and/or web version?
+* WASM and/or JS web version? HTML vs <canvas> front end
+* What does server back end look like for web version? Maybe only need it for keeping scores or co-op mode
