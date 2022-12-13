@@ -1,0 +1,11 @@
+Board needs to know
+- adjacent bombs count
+
+Cell needs to know
+- uncovered?
+- flagged?
+- bomb?
+
+It may not make sense for the cell to only have knowledge of things it absolutely most know about: uncovered? flagged? bomb? the higher game pretty much needs to know about these anyway, but maybe just shove everything in the cell object for simplicity
+
+
