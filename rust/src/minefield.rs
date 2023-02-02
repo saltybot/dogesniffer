@@ -174,7 +174,7 @@ fn populate_adjacent(minefield: &mut Minefield) {
                     }
                 }
                 // top right corner
-                else if x != minefield.cols - 1 {
+                if x != minefield.cols - 1 {
                     let n = i - rows + 1;
                     if minefield.cells[n].mine {
                         adjacent_mines += 1;
@@ -196,7 +196,7 @@ fn populate_adjacent(minefield: &mut Minefield) {
                     }
                 }
                 // bottom right corner
-                else if x != minefield.cols - 1 {
+                if x != minefield.cols - 1 {
                     let n = i + cols + 1;
                     if minefield.cells[n].mine {
                         adjacent_mines += 1;
