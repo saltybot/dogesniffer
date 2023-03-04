@@ -1,6 +1,7 @@
-//use rand::Rng;
+use rand::seq::SliceRandom;
+use rand::thread_rng;
 
-use std::cell;
+//use std::cell;
 
 enum CellState {
     Covered,
@@ -63,11 +64,6 @@ impl Minefield {
         else {
             let index: usize = (row * self.cols + col).try_into().unwrap();
             Some(&mut self.cells[index])
-            //let row = &mut self.cells[row as usize];
-            //let cell = &mut row[col as usize];
-            //Some(cell)
-            //return Some<&mut row[col as usize]>;
-            //Some<self.cells[row as usize][col as usize]>
         }
     }
 
@@ -76,12 +72,6 @@ impl Minefield {
             Some(cell) => cell.flagged = !cell.flagged,
             _ => ()
         }
-        //let &mut cell = self.get_cell(row, col).unwrap_or_el
-        //if (row < self.rows && col < self.cols) {
-        //    let row = &mut self.cells[row as usize];
-        //    let mut cell = &mut row[col as usize];
-        //    cell.flagged = !cell.flagged;
-        //}
     }
 
     pub fn uncover_adjacent(&mut self, row: u32, col: u32) {
@@ -92,11 +82,6 @@ impl Minefield {
             Some(cell) => cell.uncovered = true,
             _ => ()
         }
-        //if (row < self.rows && col < self.cols) {
-        //    let row = &mut self.cells[row as usize];
-        //    let mut cell = &mut row[col as usize];
-        //    cell.uncovered = true;
-        //}
     }
 
     pub fn no_kaboom(&mut self, row: u32, col: u32) {
@@ -109,7 +94,6 @@ impl Minefield {
             }
             self.cells[index].mine = false;
 
-            // need to recalculate adjacency_matrix
             populate_adjacent(self)
         }
 
@@ -120,9 +104,32 @@ impl Minefield {
         let mut index = 0;
         for y in 0..self.rows {
             for x in 0..self.cols {
-                println!("({}, {}) adjacent={} {}", x, y, self.adjacent_matrix[index], self.cells[index].to_str());
+                let cell = &self.cells[index];
+                if cell.flagged {
+                    print!("🚩");
+                }
+                else if !cell.uncovered {
+                    if cell.mine {
+                        print!("💣");
+                    }
+                    else {
+                        match self.adjacent_matrix[index] {
+                            0 => print!("0️⃣"),
+                            1 => print!("1️⃣"),
+                            2 => print!("2️⃣"),
+                            3 => print!("3️⃣"),
+                            _ => print!("💀"),
+                        }
+                        print!("{}", self.adjacent_matrix[index]);
+                    }
+                }
+                else {
+                    print!("⬛");
+                }
+                //println!("({}, {}) adjacent={} {}", x, y, self.adjacent_matrix[index], self.cells[index].to_str());
                 index += 1;
             }
+            println!("");
         }
         //for (x, row) in self.cells.iter().enumerate() {
         //    for (y, col) in row.iter().enumerate() {
@@ -137,23 +144,37 @@ impl Minefield {
 }
 
 fn populate_mines(minefield: &mut Minefield) {
-    let mut foo: Vec<usize> = vec![0; minefield.mines.try_into().unwrap()];
-    for i in 0..foo.len() {
-        foo[i] = i
+    let mut cells: Vec<usize> = (0..minefield.cells.len()).collect();
+    let mut rng = thread_rng();
+    cells.shuffle(&mut rng);
+    for i in 0..minefield.mines {
+        let index: usize = i.try_into().unwrap();
+        minefield.cells[cells[index]].mine = true;
     }
 
-    for i in 0..foo.len() {
+
+    //let mut mines: Vec<u32> = vec![cells];
+    //for i in 0..cells {
+    //    mines[i] = i;
+    //}
+
+    //let mut foo: Vec<usize> = vec![0; minefield.mines.try_into().unwrap()];
+    //for i in 0..foo.len() {
+    //    foo[i] = i.as
+    //}
+
+    //for i in 0..foo.len() {
         //let r = rand::thread_rng().gen_range(0..foo.len());
         //let r = i;
         //let temp = foo[i];
         //foo[i] = foo[r];
         //foo[r] = temp;
-    }
+    //}
 
-    for i in 0..minefield.mines {
-        let index: usize = i.try_into().unwrap();
-        minefield.cells[index].mine = true;
-    }
+    //for i in 0..minefield.mines {
+    //    let index: usize = i.try_into().unwrap();
+    //    minefield.cells[index].mine = true;
+    //}
 }
 
 fn populate_adjacent(minefield: &mut Minefield) {
@@ -162,7 +183,6 @@ fn populate_adjacent(minefield: &mut Minefield) {
     let cols = minefield.cols as usize;
     for y in 0..minefield.rows {
         for x in 0..minefield.cols {
-            println!("X={} Y={}", x, y);
             let mut adjacent_mines = 0;
             // check top 3
             if y != 0 {
