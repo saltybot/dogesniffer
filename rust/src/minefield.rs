@@ -1,15 +1,22 @@
-use rand::seq::SliceRandom;
+use rand::seq::{SliceRandom, IteratorRandom};
 use rand::thread_rng;
 
 //use std::cell;
 
-enum CellState {
-    Covered,
-    Flagged,
-    Uncovered,
-    Kablamo
-}
+//enum CellState {
+//    Covered,
+//    Flagged,
+//    Uncovered,
+//    Kablamo
+//}
 
+// TODO perhaps Cell can be an enum...
+// enum Cell {
+//     Hidden,
+//     Clear(u32),
+//     Flagged,
+//     Bomb,
+//}
 #[derive(Clone)]
 struct Cell {
     uncovered: bool,
@@ -110,21 +117,27 @@ impl Minefield {
                 }
                 else if !cell.uncovered {
                     if cell.mine {
-                        print!("💣");
+                        print!("💩");
                     }
                     else {
-                        match self.adjacent_matrix[index] {
-                            0 => print!("0️⃣"),
-                            1 => print!("1️⃣"),
-                            2 => print!("2️⃣"),
-                            3 => print!("3️⃣"),
-                            _ => print!("💀"),
-                        }
-                        print!("{}", self.adjacent_matrix[index]);
+                        // match self.adjacent_matrix[index] {
+                        //     0 => print!("0️⃣"),
+                        //     1 => print!("1️⃣"),
+                        //     2 => print!("2️⃣"),
+                        //     3 => print!("3️⃣"),
+                        //     4 => print!("4️⃣"),
+                        //     5 => print!("5️⃣"),
+                        //     6 => print!("6️⃣"),
+                        //     7 => print!("7️⃣"),
+                        //     8 => print!("8️⃣"),
+                        //     _ => print!("💀"),
+                        // }
+                        print!("{} ", self.adjacent_matrix[index]);
                     }
                 }
                 else {
-                    print!("⬛");
+                    //print!("⬛");
+                    print!(". ");
                 }
                 //println!("({}, {}) adjacent={} {}", x, y, self.adjacent_matrix[index], self.cells[index].to_str());
                 index += 1;
@@ -143,6 +156,9 @@ impl Minefield {
     }
 }
 
+
+// TODO don't populate all adjacent mines before game begins; instead
+// recursively calculate adjacent mines as needed
 fn populate_mines(minefield: &mut Minefield) {
     let mut cells: Vec<usize> = (0..minefield.cells.len()).collect();
     let mut rng = thread_rng();
@@ -152,6 +168,8 @@ fn populate_mines(minefield: &mut Minefield) {
         minefield.cells[cells[index]].mine = true;
     }
 
+    // TODO switch to this simpler implementation   
+    //let mut cells2: Vec<usize> = (0..minefield.cells.len()).choose_multiple(&mut rng, minefield.mines.try_into().unwrap()).into_iter().collect();
 
     //let mut mines: Vec<u32> = vec![cells];
     //for i in 0..cells {
