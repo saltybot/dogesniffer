@@ -1,0 +1,7 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "default",
+  "description": "Default capabilities for DogeSniff 2",
+  "windows": ["main"],
+  "permissions": ["core:default", "core:window:allow-set-size"]
+}

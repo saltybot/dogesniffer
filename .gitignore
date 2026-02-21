@@ -1,0 +1,15 @@
+# Target directories
+/target/
+/core/pkg/
+/frontend/dist/
+/desktop/src-tauri/target/
+/desktop/src-tauri/gen/
+
+# Node
+node_modules/
+frontend/node_modules/
+desktop/node_modules/
+
+# Misc
+.DS_Store
+*.env

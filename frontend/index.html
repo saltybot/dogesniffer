@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dogesniffer</title>
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <div id="app">
+      <div id="difficulty-bar">
+        <button class="btn-win active" data-diff="beginner">Beginner</button>
+        <button class="btn-win" data-diff="intermediate">Intermediate</button>
+        <button class="btn-win" data-diff="expert">Expert</button>
+      </div>
+
+      <div id="panel">
+        <div id="status">
+          <div id="poop-counter" class="lcd">010</div>
+          <button id="reset-btn" title="New Game">
+            <img id="doge-img" src="/src/doge.png" alt="Doge" width="52" height="52" />
+          </button>
+          <div id="timer" class="lcd">000</div>
+        </div>
+        <div id="board"></div>
+      </div>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

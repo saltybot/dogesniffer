@@ -1,0 +1,14 @@
+{
+  "name": "dogesniffer2",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "build:core": "wasm-pack build core --target web",
+    "install:frontend": "cd frontend && npm install",
+    "setup": "npm run build:core && npm run install:frontend",
+    "dev:web": "cd frontend && npm run dev",
+    "dev:desktop": "cd desktop && npm run dev",
+    "build:web": "cd frontend && npm run build",
+    "build:desktop": "cd desktop && npm run build"
+  }
+}

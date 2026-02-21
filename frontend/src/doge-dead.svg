@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Neck / chest fur -->
+  <ellipse cx="50" cy="92" rx="22" ry="14" fill="#EAD8B0"/>
+
+  <!-- Head base (slightly desaturated) -->
+  <ellipse cx="50" cy="52" rx="38" ry="36" fill="#D4AE58"/>
+
+  <!-- Forehead lighter patch -->
+  <ellipse cx="50" cy="36" rx="22" ry="16" fill="#DEBB68"/>
+
+  <!-- Left ear (drooped slightly) -->
+  <polygon points="15,46 10,12 33,32" fill="#A87820"/>
+  <polygon points="17,44 13,18 29,32" fill="#D07878"/>
+
+  <!-- Right ear (drooped) -->
+  <polygon points="85,46 90,12 67,32" fill="#A87820"/>
+  <polygon points="83,44 87,18 71,32" fill="#D07878"/>
+
+  <!-- Cheek fur puffs -->
+  <ellipse cx="16" cy="60" rx="10" ry="12" fill="#D4AE58"/>
+  <ellipse cx="84" cy="60" rx="10" ry="12" fill="#D4AE58"/>
+
+  <!-- White/cream muzzle -->
+  <ellipse cx="50" cy="68" rx="20" ry="16" fill="#EDE3CC"/>
+
+  <!-- X eyes (dead) -->
+  <line x1="23" y1="42" x2="41" y2="58" stroke="#1A0800" stroke-width="3" stroke-linecap="round"/>
+  <line x1="41" y1="42" x2="23" y2="58" stroke="#1A0800" stroke-width="3" stroke-linecap="round"/>
+  <line x1="59" y1="42" x2="77" y2="58" stroke="#1A0800" stroke-width="3" stroke-linecap="round"/>
+  <line x1="77" y1="42" x2="59" y2="58" stroke="#1A0800" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- Sad furrowed eyebrows (angled inward) -->
+  <path d="M22,40 Q32,44 42,40" stroke="#8B5E15" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+  <path d="M58,40 Q68,44 78,40" stroke="#8B5E15" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+
+  <!-- Nose -->
+  <ellipse cx="50" cy="60" rx="7" ry="5" fill="#1A0800"/>
+  <ellipse cx="47.5" cy="58.5" rx="2" ry="1.5" fill="#3A1800" opacity="0.6"/>
+
+  <!-- Sad frown -->
+  <path d="M38,74 Q50,67 62,74" stroke="#1A0800" stroke-width="2" fill="none" stroke-linecap="round"/>
+
+  <!-- Chin fur -->
+  <ellipse cx="50" cy="83" rx="14" ry="6" fill="#EDE3CC"/>
+</svg>
