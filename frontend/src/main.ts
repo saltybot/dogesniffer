@@ -40,9 +40,10 @@ const NUM_COLORS = ['', '#0000FF', '#008000', '#FF0000', '#000080', '#800000', '
 
 const DOGE_PHRASES = [
   'wow', 'such win', 'much skill', 'very amaze', 'so fast',
-  'many flag', 'such brain', 'wow', 'very clear', 'much safe',
-  'so win', 'amaze', 'wow', 'such pro', 'very doge',
-  'much victory', 'so clean', 'wow', 'such genius', 'many poop avoid',
+  'many flag', 'such brain', 'very clear', 'much safe',
+  'so win', 'such pro', 'very doge', 'much victory',
+  'so clean', 'such genius', 'many poop avoid', 'very victory',
+  'so brave', 'much clear', 'such sniff',
 ];
 const DOGE_COLORS = ['#FF4444', '#FF8C00', '#FFD700', '#00CC44', '#00BBFF', '#CC44FF', '#FF69B4'];
 
@@ -257,7 +258,7 @@ function showDogeWin() {
   for (const phrase of shuffled) {
     const el = document.createElement('span');
     el.textContent = phrase;
-    const size = 13 + Math.floor(Math.random() * 12);
+    const size = 18 + Math.floor(Math.random() * 11);
     const rotate = -25 + Math.floor(Math.random() * 50);
     const color = DOGE_COLORS[Math.floor(Math.random() * DOGE_COLORS.length)];
     el.style.cssText = `
@@ -266,7 +267,7 @@ function showDogeWin() {
       font-size:${size}px;
       font-weight:bold;
       color:${color};
-      text-shadow:1px 1px 0 #000,-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000;
+      text-shadow:1px 1px 0 #fff,-1px -1px 0 #fff,1px -1px 0 #fff,-1px 1px 0 #fff;
       transform:rotate(${rotate}deg);
       opacity:0;
       white-space:nowrap;
@@ -274,14 +275,18 @@ function showDogeWin() {
     `;
     overlay.appendChild(el);
 
-    // Try random positions; keep the first that doesn't overlap already-placed labels
+    // Try random positions; keep the first that doesn't overlap and is fully inside the overlay
     let fits = false;
+    const oRect = overlay.getBoundingClientRect();
     for (let attempt = 0; attempt < 30; attempt++) {
       el.style.left = (Math.random() * 78) + '%';
       el.style.top  = (Math.random() * 83) + '%';
 
       const r = el.getBoundingClientRect();
       const pad = 6;
+      // Must be fully within overlay bounds
+      if (r.left < oRect.left || r.right > oRect.right ||
+          r.top  < oRect.top  || r.bottom > oRect.bottom) continue;
       const overlaps = placed.some(p =>
         r.left - pad < p.right && r.right + pad > p.left &&
         r.top  - pad < p.bottom && r.bottom + pad > p.top
