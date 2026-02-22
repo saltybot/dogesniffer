@@ -136,8 +136,7 @@ function buildBoard(width: number, height: number) {
   el.addEventListener('click', onCellClick);
   el.addEventListener('contextmenu', onCellRightClick);
   el.addEventListener('dblclick', onCellDblClick);
-  el.addEventListener('mousedown', onBoardMouseDown);
-  el.addEventListener('mouseup', onBoardMouseUp);
+  el.addEventListener('auxclick', onCellMiddleClick);
 }
 
 function cellFromEvent(e: MouseEvent): HTMLElement | null {
@@ -149,13 +148,6 @@ function coords(el: HTMLElement): [number, number] {
 }
 
 // ── Input handlers ───────────────────────────────────────────────────────────
-function onBoardMouseDown(e: MouseEvent) {
-  if (e.button === 0 && !game.is_game_over()) dogeBtn().classList.add('pressed');
-}
-function onBoardMouseUp() {
-  dogeBtn().classList.remove('pressed');
-}
-
 function onCellClick(e: MouseEvent) {
   const cell = cellFromEvent(e);
   if (!cell || game.is_game_over()) return;
@@ -171,6 +163,16 @@ function onCellRightClick(e: MouseEvent) {
   if (!cell || game.is_game_over()) return;
   const [x, y] = coords(cell);
   game.flag(x, y);
+  syncBoard();
+}
+
+function onCellMiddleClick(e: MouseEvent) {
+  if (e.button !== 1) return;
+  e.preventDefault();
+  const cell = cellFromEvent(e);
+  if (!cell || game.is_game_over()) return;
+  const [x, y] = coords(cell);
+  game.chord(x, y);
   syncBoard();
 }
 
@@ -330,8 +332,6 @@ async function main() {
   });
 
   dogeBtn().addEventListener('click', newGame);
-  // Release pressed state even if mouse is released outside the board
-  document.addEventListener('mouseup', () => dogeBtn().classList.remove('pressed'));
 
   // Cheat code
   const CHEAT = 'much cheat';
