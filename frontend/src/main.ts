@@ -84,6 +84,7 @@ function setDogeState(state: 'normal' | 'win' | 'dead') {
     img.src = new URL('./doge.png', import.meta.url).href;
   }
   img.style.filter = '';
+  img.style.transform = '';
 }
 
 // ── Game lifecycle ───────────────────────────────────────────────────────────
@@ -413,6 +414,15 @@ async function main() {
   });
 
   dogeBtn().addEventListener('click', newGame);
+
+  // Mirror doge toward mouse during gameplay
+  document.addEventListener('mousemove', (e) => {
+    if (game?.is_game_over()) return;
+    const img = dogeImg();
+    const rect = img.getBoundingClientRect();
+    const dogeCenterX = rect.left + rect.width / 2;
+    img.style.transform = e.clientX < dogeCenterX ? 'scaleX(-1)' : '';
+  });
 
   document.getElementById('lb-btn')!.addEventListener('click', lbShow);
   document.getElementById('lb-close')!.addEventListener('click', lbHide);
