@@ -76,12 +76,14 @@ function lcdFormat(n: number): string {
 
 function setDogeState(state: 'normal' | 'win' | 'dead') {
   const img = dogeImg();
-  img.src = new URL('./doge.png', import.meta.url).href;
-  img.style.filter = state === 'win'
-    ? 'brightness(1.25) saturate(1.4) drop-shadow(0 0 4px gold)'
-    : state === 'dead'
-    ? 'grayscale(1) brightness(0.7)'
-    : '';
+  if (state === 'win') {
+    img.src = new URL('./doge_win.png', import.meta.url).href;
+  } else if (state === 'dead') {
+    img.src = new URL('./doge_lose.png', import.meta.url).href;
+  } else {
+    img.src = new URL('./doge.png', import.meta.url).href;
+  }
+  img.style.filter = '';
 }
 
 // ── Game lifecycle ───────────────────────────────────────────────────────────
