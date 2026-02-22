@@ -53,6 +53,12 @@ const WIN_PHRASE_COUNT: Record<Difficulty, number> = {
   expert:       12,
 };
 
+const CELL_SIZE: Record<Difficulty, number> = {
+  beginner:     36,
+  intermediate: 32,
+  expert:       32,
+};
+
 let game: Game;
 let difficulty: Difficulty = 'beginner';
 let timerInterval: ReturnType<typeof setInterval> | null = null;
@@ -120,7 +126,9 @@ function stopTimer() {
 // ── Board rendering ──────────────────────────────────────────────────────────
 function buildBoard(width: number, height: number) {
   const el = boardEl();
-  el.style.gridTemplateColumns = `repeat(${width}, 32px)`;
+  const cellPx = CELL_SIZE[difficulty];
+  el.style.setProperty('--cell-size', `${cellPx}px`);
+  el.style.gridTemplateColumns = `repeat(${width}, ${cellPx}px)`;
   el.innerHTML = '';
 
   for (let y = 0; y < height; y++) {
