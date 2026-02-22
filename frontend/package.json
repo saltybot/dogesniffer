@@ -1,5 +1,5 @@
 {
-  "name": "dogesniffer2-frontend",
+  "name": "dogesniffer-frontend",
   "private": true,
   "version": "0.1.0",
   "type": "module",
@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@tauri-apps/api": "^2.10.1",
-    "dogesniffer2-core": "file:../core/pkg"
+    "dogesniffer-core": "file:../core/pkg"
   },
   "devDependencies": {
     "typescript": "^5.0.0",

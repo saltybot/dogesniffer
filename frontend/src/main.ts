@@ -1,4 +1,4 @@
-import init, { Game } from 'dogesniffer2-core';
+import init, { Game } from 'dogesniffer-core';
 
 // Dynamically loaded only inside Tauri
 type TauriWindow = import('@tauri-apps/api/window').Window;
@@ -327,8 +327,8 @@ function clearDogeWin() {
 }
 
 // ── Leaderboard ───────────────────────────────────────────────────────────────
-const LB_KEY = 'dogesniffer2_leaderboard';
-const LB_NAME_KEY = 'dogesniffer2_last_name';
+const LB_KEY = 'dogesniffer_leaderboard';
+const LB_NAME_KEY = 'dogesniffer_last_name';
 const LB_MAX = 1;
 
 type LBEntry = { time: number; name: string };

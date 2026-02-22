@@ -2,5 +2,5 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 fn main() {
-    dogesniffer2_desktop_lib::run()
+    dogesniffer_desktop_lib::run()
 }

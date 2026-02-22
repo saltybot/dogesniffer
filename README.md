@@ -1,17 +1,17 @@
-# DogeSniff 2
+# Dogesniffer
 
 Minesweeper clone where mines are replaced with 💩 and the smiley face is a Doge. Available as a web app and a cross-platform desktop app (Tauri).
 
 ## Architecture
 
 ```
-dogesniffer2/
+dogesniffer/
 ├── core/           # Rust game logic — compiled to WebAssembly via wasm-pack
 ├── frontend/       # Vanilla TypeScript + Vite UI (shared by web and desktop)
 └── desktop/        # Tauri wrapper (uses the same frontend build)
 ```
 
-The Rust core is compiled to WASM and consumed by the frontend as an npm package (`dogesniffer2-core`). Tauri wraps the same frontend build for the desktop app, so there is a single UI codebase.
+The Rust core is compiled to WASM and consumed by the frontend as an npm package (`dogesniffer-core`). Tauri wraps the same frontend build for the desktop app, so there is a single UI codebase.
 
 ## Prerequisites
 
