@@ -67,6 +67,9 @@ jobs:
       - name: Install frontend deps
         run: npm run install:frontend
 
+      - name: Install desktop deps
+        run: cd desktop && npm install
+
       - name: Build desktop
         run: npm run build:desktop
 
