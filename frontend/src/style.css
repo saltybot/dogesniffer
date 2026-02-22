@@ -26,7 +26,6 @@ body {
 body.tauri {
   padding: 0;
   gap: 0;
-}
   font-size: 1.4rem;
   letter-spacing: 3px;
   color: #000;
