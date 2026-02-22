@@ -233,7 +233,15 @@ function syncBoard() {
   if (game.is_game_over()) {
     stopTimer();
     setDogeState(game.is_won() ? 'win' : 'dead');
-    if (game.is_won()) showDogeWin();
+    if (game.is_won()) {
+      const elapsed = Math.floor((Date.now() - startTime) / 1000);
+      const store = lbLoad();
+      const best = (store[difficulty] ?? [])[0];
+      if (!best || elapsed < best.time) {
+        promptName(elapsed);
+      }
+      showDogeWin();
+    }
   }
 }
 
@@ -317,6 +325,79 @@ function clearDogeWin() {
   document.getElementById('doge-win-overlay')?.remove();
 }
 
+// ── Leaderboard ───────────────────────────────────────────────────────────────
+const LB_KEY = 'dogesniffer2_leaderboard';
+const LB_NAME_KEY = 'dogesniffer2_last_name';
+const LB_MAX = 1;
+
+type LBEntry = { time: number; name: string };
+type LBStore = Record<Difficulty, LBEntry[]>;
+
+function lbLoad(): LBStore {
+  try { return JSON.parse(localStorage.getItem(LB_KEY) || '{}'); } catch { return {} as LBStore; }
+}
+
+function lbSave(store: LBStore) {
+  localStorage.setItem(LB_KEY, JSON.stringify(store));
+}
+
+function lbRecord(diff: Difficulty, time: number, name: string) {
+  const store = lbLoad();
+  const entries: LBEntry[] = store[diff] ?? [];
+  entries.push({ time, name: name.trim() || 'Anonymous' });
+  entries.sort((a, b) => a.time - b.time);
+  store[diff] = entries.slice(0, LB_MAX);
+  lbSave(store);
+}
+
+function lbRender() {
+  const store = lbLoad();
+  const tbody = document.querySelector('#lb-table tbody')!;
+  tbody.innerHTML = '';
+  const diffs: Difficulty[] = ['beginner', 'intermediate', 'expert'];
+  for (const diff of diffs) {
+    const entries = store[diff] ?? [];
+    if (entries.length === 0) {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td>${diff}</td><td>—</td><td>—</td>`;
+      tbody.appendChild(tr);
+    } else {
+      const e = entries[0];
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td>${diff}</td><td>${e.name}</td><td>${e.time}s</td>`;
+      tbody.appendChild(tr);
+    }
+  }
+}
+
+function promptName(time: number) {
+  const modal = document.getElementById('name-modal')!;
+  const input = document.getElementById('name-input') as HTMLInputElement;
+  const submit = document.getElementById('name-submit')!;
+
+  // Pre-fill with last used name
+  input.value = localStorage.getItem(LB_NAME_KEY) ?? '';
+  modal.classList.remove('modal-hidden');
+  input.focus();
+  input.select();
+
+  const finish = () => {
+    const name = input.value.trim() || 'Anonymous';
+    localStorage.setItem(LB_NAME_KEY, name);
+    lbRecord(difficulty, time, name);
+    modal.classList.add('modal-hidden');
+    submit.removeEventListener('click', finish);
+    input.removeEventListener('keydown', onKey);
+    lbShow();
+  };
+  const onKey = (e: KeyboardEvent) => { if (e.key === 'Enter') finish(); };
+  submit.addEventListener('click', finish);
+  input.addEventListener('keydown', onKey);
+}
+
+function lbShow() { lbRender(); document.getElementById('lb-modal')!.classList.remove('modal-hidden'); }
+function lbHide() { document.getElementById('lb-modal')!.classList.add('modal-hidden'); }
+
 // ── Bootstrap ────────────────────────────────────────────────────────────────
 async function main() {
   await init();
@@ -332,6 +413,16 @@ async function main() {
   });
 
   dogeBtn().addEventListener('click', newGame);
+
+  document.getElementById('lb-btn')!.addEventListener('click', lbShow);
+  document.getElementById('lb-close')!.addEventListener('click', lbHide);
+  document.getElementById('lb-clear')!.addEventListener('click', () => {
+    localStorage.removeItem(LB_KEY);
+    lbRender();
+  });
+  document.getElementById('lb-modal')!.addEventListener('click', (e) => {
+    if (e.target === e.currentTarget) lbHide();
+  });
 
   // Cheat code
   const CHEAT = 'much cheat';

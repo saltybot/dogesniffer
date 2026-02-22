@@ -12,6 +12,7 @@
         <button class="btn-win active" data-diff="beginner">Beginner</button>
         <button class="btn-win" data-diff="intermediate">Intermediate</button>
         <button class="btn-win" data-diff="expert">Expert</button>
+        <button class="btn-win" id="lb-btn">🏆</button>
       </div>
 
       <div id="panel">
@@ -23,6 +24,29 @@
           <div id="timer" class="lcd">000</div>
         </div>
         <div id="board"></div>
+      </div>
+    </div>
+
+    <!-- Win name entry modal -->
+    <div id="name-modal" class="modal-backdrop modal-hidden">
+      <div class="modal-box">
+        <div class="modal-title">🏆 You Win!</div>
+        <label for="name-input">Enter your name:</label>
+        <input id="name-input" class="name-input" type="text" maxlength="20" placeholder="Anonymous" />
+        <button class="btn-win" id="name-submit">OK</button>
+      </div>
+    </div>
+
+    <!-- Leaderboard modal -->
+    <div id="lb-modal" class="modal-backdrop modal-hidden">
+      <div class="modal-box">
+        <div class="modal-title">🏆 Best Times</div>
+        <table id="lb-table">
+          <thead><tr><th>Difficulty</th><th>Name</th><th>Best Time</th></tr></thead>
+          <tbody></tbody>
+        </table>
+        <button class="btn-win" id="lb-close">Close</button>
+        <button class="btn-win" id="lb-clear">Clear</button>
       </div>
     </div>
     <script type="module" src="/src/main.ts"></script>
