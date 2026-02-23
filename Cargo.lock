@@ -583,6 +583,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "dogesniffer"
+version = "0.1.0"
+dependencies = [
+ "serde",
+ "serde_json",
+ "tauri",
+ "tauri-build",
+]
+
+[[package]]
 name = "dogesniffer-core"
 version = "0.1.0"
 dependencies = [
@@ -592,16 +602,6 @@ dependencies = [
  "serde",
  "serde-wasm-bindgen",
  "wasm-bindgen",
-]
-
-[[package]]
-name = "dogesniffer-desktop"
-version = "0.1.0"
-dependencies = [
- "serde",
- "serde_json",
- "tauri",
- "tauri-build",
 ]
 
 [[package]]
