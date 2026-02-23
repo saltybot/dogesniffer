@@ -217,8 +217,7 @@ impl Game {
             let to_reveal: Vec<(usize, usize)> = neighbors
                 .into_iter()
                 .filter(|&(nx, ny)| {
-                    let ni = self.idx(nx, ny);
-                    self.cells[ni].state == CellState::Hidden && !self.cells[ni].has_poop
+                    self.cells[self.idx(nx, ny)].state == CellState::Hidden
                 })
                 .collect();
             for (nx, ny) in to_reveal {
