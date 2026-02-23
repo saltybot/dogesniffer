@@ -1,6 +1,6 @@
 # Dogesniffer
 
-Minesweeper clone where mines are replaced with 💩 and the smiley face is a Doge. Available as a web app and a cross-platform desktop app (Tauri).
+Available as a [web app](https://dogesniffer.saltybot.com) and a cross-platform desktop app (Tauri).
 
 ## Architecture
 
