@@ -146,6 +146,9 @@ function buildBoard(width: number, height: number) {
   el.addEventListener('contextmenu', onCellRightClick);
   el.addEventListener('dblclick', onCellDblClick);
   el.addEventListener('auxclick', onCellMiddleClick);
+  el.addEventListener('touchstart', onCellTouchStart, { passive: true });
+  el.addEventListener('touchend', onCellTouchEnd);
+  el.addEventListener('touchmove', onCellTouchMove, { passive: true });
 }
 
 function cellFromEvent(e: MouseEvent): HTMLElement | null {
@@ -192,6 +195,41 @@ function onCellDblClick(e: MouseEvent) {
   const [x, y] = coords(cell);
   game.chord(x, y);
   syncBoard();
+}
+
+// ── Long-press (mobile flag) ─────────────────────────────────────────────────
+let longPressTimer: ReturnType<typeof setTimeout> | null = null;
+let longPressFired = false;
+
+function onCellTouchStart(e: TouchEvent) {
+  longPressFired = false;
+  const cell = (e.target as HTMLElement).closest<HTMLElement>('.cell');
+  if (!cell || game.is_game_over()) return;
+  longPressTimer = setTimeout(() => {
+    longPressFired = true;
+    const [x, y] = coords(cell);
+    game.flag(x, y);
+    syncBoard();
+  }, 500);
+}
+
+function onCellTouchMove() {
+  if (longPressTimer !== null) {
+    clearTimeout(longPressTimer);
+    longPressTimer = null;
+  }
+}
+
+function onCellTouchEnd(e: TouchEvent) {
+  if (longPressTimer !== null) {
+    clearTimeout(longPressTimer);
+    longPressTimer = null;
+  }
+  // Suppress the synthetic click that follows a long press
+  if (longPressFired) {
+    e.preventDefault();
+    longPressFired = false;
+  }
 }
 
 // ── Board sync ───────────────────────────────────────────────────────────────
